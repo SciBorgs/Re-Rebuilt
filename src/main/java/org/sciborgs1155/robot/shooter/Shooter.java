@@ -11,7 +11,6 @@ import org.sciborgs1155.robot.commands.Shooting;
 import org.sciborgs1155.robot.shooter.ShooterConstants.Bottom;
 import org.sciborgs1155.robot.shooter.ShooterConstants.Top;
 
-import static org.sciborgs1155.lib.FaultLogger.update;
 import static org.sciborgs1155.robot.Ports.Shooter.BOTTOM_MOTOR;
 import static org.sciborgs1155.robot.Ports.Shooter.TOP_MOTOR;
 import static org.sciborgs1155.robot.shooter.ShooterConstants.*;
