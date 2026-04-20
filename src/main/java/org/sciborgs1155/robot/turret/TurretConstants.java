@@ -23,4 +23,7 @@ public class TurretConstants {
 
   public static double MIN_ANGLE = 0;
   public static double MAX_ANGLE = 270;
+
+  public static double CURRENT_LIMT = 12;
+  public static double GEARING = 1;
 }
