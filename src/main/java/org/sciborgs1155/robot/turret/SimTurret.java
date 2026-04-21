@@ -1,10 +1,8 @@
 package org.sciborgs1155.robot.turret;
 
-import edu.wpi.first.units.Units.Radians;
-import edu.wpi.first.units.Units.Seconds;
+import static edu.wpi.first.units.Units.Seconds;
 import static org.sciborgs1155.robot.turret.TurretConstants.*;
 
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import org.sciborgs1155.robot.Constants.*;
 
