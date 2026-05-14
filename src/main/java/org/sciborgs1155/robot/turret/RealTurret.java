@@ -51,4 +51,9 @@ public class RealTurret implements TurretIO {
   public void setVoltage(double voltage) {
     motor.setVoltage(voltage);
   }
+
+  @Override
+  public void close() throws Exception {
+    motor.setVoltage(0);
+  }
 }
