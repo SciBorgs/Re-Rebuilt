@@ -28,6 +28,11 @@ public final class Ports {
     public static final int DRIVER = 1;
   }
 
+  public static final class Shooter {
+    public static final int LEADER = 2;
+    public static final int FOLLOWER = 3;
+  }
+
   public static final class Drive {
     public static final int CANANDGYRO = 20;
     public static final int FRONT_LEFT_DRIVE = 11;
