@@ -41,12 +41,12 @@ public class Turret extends SubsystemBase implements AutoCloseable {
     return new Turret(new NoTurret());
   }
 
-  private final DoubleEntry S = Tuning.entry("/Robot/tuning/turret/kS", kS);
-  private final DoubleEntry V = Tuning.entry("/Robot/tuning/turret/kV", kV);
-  private final DoubleEntry A = Tuning.entry("/Robot/tuning/turret/kA", kA);
-  private final DoubleEntry P = Tuning.entry("/Robot/tuning/turret/kP", kP);
-  private final DoubleEntry I = Tuning.entry("/Robot/tuning/turret/kI", kI);
-  private final DoubleEntry D = Tuning.entry("/Robot/tuning/turret/kD", kD);
+  @Logged private final DoubleEntry S = Tuning.entry("/Robot/tuning/turret/kS", kS);
+  @Logged private final DoubleEntry V = Tuning.entry("/Robot/tuning/turret/kV", kV);
+  @Logged private final DoubleEntry A = Tuning.entry("/Robot/tuning/turret/kA", kA);
+  @Logged private final DoubleEntry P = Tuning.entry("/Robot/tuning/turret/kP", kP);
+  @Logged private final DoubleEntry I = Tuning.entry("/Robot/tuning/turret/kI", kI);
+  @Logged private final DoubleEntry D = Tuning.entry("/Robot/tuning/turret/kD", kD);
 
   public Turret(TurretIO hardware) {
     this.hardware = hardware;
@@ -86,15 +86,15 @@ public class Turret extends SubsystemBase implements AutoCloseable {
     return hardware.acceleration();
   }
 
-  double usedVoltage = 2;
-  
+  private double usedVoltage;
+
   public void setVoltage(double voltage) {
-    double usedVoltage = voltage;
+    usedVoltage = voltage;
     hardware.setVoltage(voltage);
   }
 
   @Logged
-  public double voltage(){
+  public double voltage() {
     return usedVoltage;
   }
 
@@ -103,24 +103,14 @@ public class Turret extends SubsystemBase implements AutoCloseable {
   }
 
   public void update(double angle) {
-    hardware.setVoltage(
-        pid.calculate(position(), MathUtil.clamp(angle, 0, 270))
-            // + ff.calculateWithVelocities(velocity(), velocitySetpoint()));
-            + ff.calculateWithVelocities(velocity(), velocitySetpoint()));
+    System.out.println("updating . . . " + angle);
+    setVoltage(
+        pid.calculate(position(), MathUtil.clamp(angle, 0, Math.toRadians(270)))
+            + ff.calculate(positionSetpoint(), velocitySetpoint()));
   }
 
   public Command goTo(double goal) {
-    // return Commands.runOnce(() -> pid.setGoal(MathUtil.clamp(goal, 0, 270)))
-    //     .andThen(
-    //         Commands.run(
-    //             () ->
-    //                 hardware.setVoltage(
-    //                     pid.calculate(position())
-    //                         // + ff.calculateWithVelocities(velocity(), velocitySetpoint())),
-    //                         + ff.calculate(velocitySetpoint())),
-    //             this))
-    //     .until(pid::atGoal);
-    return run(() -> update(goal));
+    return Commands.run(() -> update(goal)).until(pid::atGoal);
   }
 
   public Test goToTest(double angle) {
