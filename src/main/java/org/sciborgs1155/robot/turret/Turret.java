@@ -11,10 +11,12 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.DoubleEntry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import java.util.Set;
 import org.sciborgs1155.lib.Assertion;
 import org.sciborgs1155.lib.Assertion.EqualityAssertion;
@@ -60,6 +62,31 @@ public class Turret extends SubsystemBase implements AutoCloseable {
             new SysIdRoutine.Config(QUASISTATIC_VOLTAGE, DYNAMIC_VOLTAGE, Seconds.of(5)),
             new SysIdRoutine.Mechanism(
                 voltage -> hardware.setVoltage(voltage.in(Volts)), null, this));
+
+    SmartDashboard.putData(
+        "Robot/turret/quasistatic forward",
+        sysIdRoutine
+            .quasistatic(Direction.kForward)
+            .until(() -> atPosition(MAX_ANGLE))
+            .withName("turret quasistatic forward"));
+    SmartDashboard.putData(
+        "Robot/turret/dynamic forward",
+        sysIdRoutine
+            .dynamic(Direction.kForward)
+            .until(() -> atPosition(MAX_ANGLE))
+            .withName("turret dynamic forward"));
+    SmartDashboard.putData(
+        "Robot/turret/quasistatic backward",
+        sysIdRoutine
+            .quasistatic(Direction.kReverse)
+            .until(() -> atPosition(MIN_ANGLE))
+            .withName("turret quasistatic backward"));
+    SmartDashboard.putData(
+        "Robot/turret/dynamic backward",
+        sysIdRoutine
+            .quasistatic(Direction.kReverse)
+            .until(() -> atPosition(MIN_ANGLE))
+            .withName("turret dynamic backward"));
   }
 
   @Logged
@@ -102,6 +129,10 @@ public class Turret extends SubsystemBase implements AutoCloseable {
     return Math.abs(positionSetpoint() - hardware.position()) < TOLERANCE;
   }
 
+  public boolean atPosition(double angle) {
+    return Math.abs(angle - hardware.position()) < TOLERANCE;
+  }
+
   public void update(double angle) {
     System.out.println("updating . . . " + angle);
     setVoltage(
@@ -121,6 +152,14 @@ public class Turret extends SubsystemBase implements AutoCloseable {
 
   public Command zero() {
     return goTo(0);
+  }
+
+  public Command incrementUp() {
+    return goTo(position() + Math.PI / 12);
+  }
+
+  public Command incrementDown() {
+    return goTo(position() - Math.PI / 12);
   }
 
   public void periodic() {

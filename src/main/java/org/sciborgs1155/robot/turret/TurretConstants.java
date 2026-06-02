@@ -13,7 +13,7 @@ import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
 
 public class TurretConstants {
-  public static double kP = 9;
+  public static double kP = 35;
   public static double kI = 0;
   public static double kD = 0.1;
   public static double kS = 0;

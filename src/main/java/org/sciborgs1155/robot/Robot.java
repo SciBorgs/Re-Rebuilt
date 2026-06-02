@@ -197,8 +197,8 @@ public class Robot extends CommandRobot {
 
     // TODO: Add any additional bindings.
 
-    driver.a().onTrue(turret.goTo(Math.toRadians(90)));
-    driver.b().onTrue(turret.zero());
+    driver.a().onTrue(turret.incrementUp());
+    driver.b().onTrue(turret.incrementDown());
   }
 
   /**
