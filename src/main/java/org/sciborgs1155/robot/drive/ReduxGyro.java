@@ -2,7 +2,7 @@ package org.sciborgs1155.robot.drive;
 
 import static edu.wpi.first.units.Units.Seconds;
 import static org.sciborgs1155.robot.Constants.ODOMETRY_PERIOD;
-import static org.sciborgs1155.robot.Ports.Drive.CANANDGYRO;
+import static org.sciborgs1155.robot.Ports.Drive.GYRO;
 
 import com.reduxrobotics.sensors.canandgyro.Canandgyro;
 import com.reduxrobotics.sensors.canandgyro.CanandgyroSettings;
@@ -16,7 +16,7 @@ import org.sciborgs1155.lib.FaultLogger;
 
 /** GyroIO implementation for Canandgyro */
 public class ReduxGyro implements GyroIO {
-  private final Canandgyro canandgyro = new Canandgyro(CANANDGYRO);
+  private final Canandgyro canandgyro = new Canandgyro(GYRO);
 
   private final Queue<Double> position;
   private final Queue<Double> timestamp;
@@ -27,7 +27,7 @@ public class ReduxGyro implements GyroIO {
             .setAngularPositionFramePeriod(ODOMETRY_PERIOD.in(Seconds))
             .setAngularVelocityFramePeriod(ODOMETRY_PERIOD.in(Seconds));
     canandgyro.setSettings(settings, 0.25, 5);
-    canandgyro.setYaw(0.0, 0.1);
+    canandgyro.setYaw(0.0);
     canandgyro.clearStickyFaults();
 
     FaultLogger.register(canandgyro);
@@ -51,7 +51,7 @@ public class ReduxGyro implements GyroIO {
 
   @Override
   public double[][] odometryData() {
-    Drive.lock.lock();
+    Drive.LOCK.lock();
     try {
       double[][] data = {
         position.stream().mapToDouble((Double d) -> d).toArray(),
@@ -61,7 +61,7 @@ public class ReduxGyro implements GyroIO {
       timestamp.clear();
       return data;
     } finally {
-      Drive.lock.unlock();
+      Drive.LOCK.unlock();
     }
   }
 
