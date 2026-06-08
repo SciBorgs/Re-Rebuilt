@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class Indexer extends SubsystemBase {
 
     private final SimpleMotor motor;
-    private final Beambreak beambreak;
     public Trigger blocked;
 
     public static Indexer create() {
@@ -56,10 +55,8 @@ public class Indexer extends SubsystemBase {
 
     private Indexer(SimpleMotor motor, Beambreak beambreak) {
         this.motor = motor;
-        this.beambreak = beambreak;
-        this.blocked = new Trigger(() -> !beambreak.get());
 
-        //setDefaultCommand(stop());
+        setDefaultCommand(stop());
 
     }
 

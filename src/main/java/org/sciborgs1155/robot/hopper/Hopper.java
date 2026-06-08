@@ -21,7 +21,6 @@ import org.sciborgs1155.robot.hopper.HopperConstants;
 
 public class Hopper extends SubsystemBase {
     public final SimpleMotor motor;
-    public final Beambreak beambreak;
     public Trigger blocked;
 
     /**
@@ -62,11 +61,8 @@ public class Hopper extends SubsystemBase {
 
     private Hopper(SimpleMotor motor, Beambreak beambreak) {
         this.motor = motor;
-        this.beambreak = beambreak;
 
-        this.blocked = new Trigger(() -> beambreak.get());
-
-        //setDefaultCommand(stop());
+        setDefaultCommand(stop());
     }
 
     /**
