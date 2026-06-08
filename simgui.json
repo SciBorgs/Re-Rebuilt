@@ -27,6 +27,10 @@
       "/SmartDashboard/Drive Field": "Field2d",
       "/SmartDashboard/PathPlanner": "Alerts",
       "/SmartDashboard/PhotonAlerts": "Alerts",
+      "/SmartDashboard/Robot/shooter/shooter dynamic backward": "Command",
+      "/SmartDashboard/Robot/shooter/shooter dynamic forward": "Command",
+      "/SmartDashboard/Robot/shooter/shooter quasistatic backward": "Command",
+      "/SmartDashboard/Robot/shooter/shooter quasistatic forward": "Command",
       "/SmartDashboard/Scheduler": "Scheduler",
       "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d",
       "/SmartDashboard/drive dynamic backward": "Command",
@@ -93,6 +97,9 @@
   },
   "NetworkTables": {
     "Retained Values": {
+      "open": false
+    },
+    "Transitory Values": {
       "open": false
     },
     "transitory": {
@@ -173,8 +180,7 @@
             "open": true
           },
           "open": true
-        },
-        "open": true
+        }
       }
     }
   },

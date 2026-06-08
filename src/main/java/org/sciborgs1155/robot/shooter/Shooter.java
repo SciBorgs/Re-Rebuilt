@@ -89,6 +89,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void update(double velocitySetpoint, boolean noDeceleration) {
+    System.out.println(velocitySetpoint);
     double velocity =
         MathUtil.clamp(
             velocitySetpoint,
@@ -136,7 +137,8 @@ public class Shooter extends SubsystemBase {
   public Command manualShooter(InputStream input) {
     return runShooter(
             input
-                .deadband(.15, 1)
+                .negate()
+                .add(1)
                 .scale(MAX_VELOCITY.in(RadiansPerSecond))
                 .scale(PERIOD.in(Seconds))
                 .add(() -> pid.getSetpoint().position))
