@@ -8,6 +8,9 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.epilogue.Logged;
+
 import org.sciborgs1155.lib.FaultLogger;
 import org.sciborgs1155.lib.TalonUtils;
 import yams.units.EasyCRT;
@@ -31,12 +34,12 @@ public class RealTurret implements TurretIO {
   // TODO: Config
 
   public RealTurret() {
-    motor = new TalonFX(2);
+    motor = new TalonFX(25);
 
     config = new TalonFXConfiguration();
 
-    encoderA = new CANcoder(5); // get real number
-    encoderB = new CANcoder(8); // get real number
+    encoderA = new CANcoder(26); // get real number
+    encoderB = new CANcoder(27); // get real number
 
     configA = new CANcoderConfiguration();
     configB = new CANcoderConfiguration();
@@ -62,11 +65,14 @@ public class RealTurret implements TurretIO {
     motor.setPosition(0);
     TalonUtils.addMotor(motor);
     FaultLogger.register(motor);
+    FaultLogger.register(encoderA);
+    FaultLogger.register(encoderB);
   }
 
   @Override
+  @Logged
   public double position() {
-    return motor.getPosition().getValueAsDouble();
+    return easyCRTSolver.getLastErrorRotations();
   }
 
   @Override
