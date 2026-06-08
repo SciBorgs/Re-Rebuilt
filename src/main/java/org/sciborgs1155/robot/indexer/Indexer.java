@@ -13,15 +13,17 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-public class Indexer {
+public class Indexer extends SubsystemBase {
 
     private final SimpleMotor motor;
     private final Beambreak beambreak;
     public Trigger blocked;
 
-    private Indexer create() {
+    public static Indexer create() {
         
         return Robot.isReal() 
         ? new Indexer(real(), Beambreak.real(org.sciborgs1155.robot.Ports.Hopper.BEAMBREAK)) 
@@ -33,7 +35,7 @@ public class Indexer {
      * creates a new none hopper.
      * @return a none simplemotor object 
      */
-    private static SimpleMotor none() {
+    public static SimpleMotor none() {
         return SimpleMotor.none();
     }
 
@@ -55,7 +57,9 @@ public class Indexer {
     private Indexer(SimpleMotor motor, Beambreak beambreak) {
         this.motor = motor;
         this.beambreak = beambreak;
-        this.blocked = new Trigger(() -> beambreak.get());
+        this.blocked = new Trigger(() -> !beambreak.get());
+
+        //setDefaultCommand(stop());
 
     }
 

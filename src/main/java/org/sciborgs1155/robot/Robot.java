@@ -35,6 +35,8 @@ import org.sciborgs1155.lib.FaultLogger;
 import org.sciborgs1155.lib.InputStream;
 import org.sciborgs1155.lib.Test;
 import org.sciborgs1155.lib.Tracer;
+import org.sciborgs1155.robot.hopper.Hopper;
+import org.sciborgs1155.robot.indexer.Indexer;
 import org.sciborgs1155.robot.Ports.OI;
 import org.sciborgs1155.robot.commands.Alignment;
 import org.sciborgs1155.robot.commands.Autos;
@@ -58,6 +60,8 @@ public class Robot extends CommandRobot {
   // SUBSYSTEMS
   private final Drive drive = Drive.create();
   private final Vision vision = Vision.create();
+  private final Hopper hopper = Hopper.create();
+  private final Indexer indexer = Indexer.create();
 
   // COMMANDS
   private final Alignment align = new Alignment(drive);
@@ -81,6 +85,7 @@ public class Robot extends CommandRobot {
     Tracer.startTrace("commands");
     CommandScheduler.getInstance().run();
     Tracer.endTrace();
+
   }
 
   /** Configures basic behavior for different periods during the game. */

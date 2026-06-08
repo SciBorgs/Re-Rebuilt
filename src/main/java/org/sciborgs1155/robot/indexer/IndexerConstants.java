@@ -8,5 +8,5 @@ public class IndexerConstants {
 
   public static final Current CURRENT_LIMIT = Amps.of(0);
   public static final int INTAKE_POWER = 0;
-  
+    
 }

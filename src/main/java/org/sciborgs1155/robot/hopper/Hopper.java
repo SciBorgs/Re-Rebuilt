@@ -20,15 +20,15 @@ import org.sciborgs1155.robot.hopper.HopperConstants;
 
 
 public class Hopper extends SubsystemBase {
-    private final SimpleMotor motor;
-    private final Beambreak beambreak;
+    public final SimpleMotor motor;
+    public final Beambreak beambreak;
     public Trigger blocked;
 
     /**
      * creates a real/none hoppper depending on if connected to robot.
      * @return real/none hopper object
      */
-    private Hopper create() {
+    public static Hopper create() {
         
         return Robot.isReal() 
         ? new Hopper(real(), Beambreak.real(org.sciborgs1155.robot.Ports.Hopper.BEAMBREAK)) 
@@ -40,7 +40,7 @@ public class Hopper extends SubsystemBase {
      * creates a new none hopper.
      * @return a none simplemotor object 
      */
-    private static SimpleMotor none() {
+    public static SimpleMotor none() {
         return SimpleMotor.none();
     }
 
@@ -66,7 +66,7 @@ public class Hopper extends SubsystemBase {
 
         this.blocked = new Trigger(() -> beambreak.get());
 
-        setDefaultCommand(stop());
+        //setDefaultCommand(stop());
     }
 
     /**
