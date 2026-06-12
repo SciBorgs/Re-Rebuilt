@@ -26,7 +26,6 @@ public class HoodConstants {
   public static final Angle POSITION_TOLERANCE = Radians.of(0.01);
   public static final Angle SHOOTING_ANGLE_OFFSET = Degrees.of(90);
 
-  // Sysid constants
   public static final Velocity<VoltageUnit> RAMP_RATE = Volts.of(0.5).per(Second);
   public static final Voltage STEP_VOLTAGE = Volts.of(0.3);
   public static final Time TIME_OUT = Seconds.of(3);
@@ -37,13 +36,12 @@ public class HoodConstants {
   public static final Angle DEFAULT_ANGLE = STARTING_ANGLE;
   public static final double GEARING = 12.0 / 44.0 * 18.0 / 14.0 * 182.0 / 10.0;
 
-  public class PID {
-    public static final double P = 0;
-    public static final double I = 0;
-    public static final double D = 0;
-    public static final double S = 0;
-    public static final double V = 0;
-    public static final double G = 0;
-    public static final double A = 0;
-  }
+  //PID constants
+  public static final double P = 0;
+  public static final double I = 0;
+  public static final double D = 0;
+  public static final double S = 0;
+  public static final double V = 0;
+  public static final double G = 0;
+  public static final double A = 0;
 }

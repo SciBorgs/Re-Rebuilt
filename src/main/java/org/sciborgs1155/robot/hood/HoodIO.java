@@ -16,9 +16,15 @@ public interface HoodIO extends AutoCloseable{
 
     /**
      * Gets the current velocity of the hood
-     * @return veolcity in rads/sec
+     * @return velocity in rads/sec
      */
     double velocity();
+
+    /**
+     * Gets the current voltage of the hood
+     * @return voltage in volts
+     */
+    double getVoltage();
 
     @Override
     void close() throws Exception;

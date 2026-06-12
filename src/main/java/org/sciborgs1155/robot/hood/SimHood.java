@@ -1,29 +1,51 @@
 package org.sciborgs1155.robot.hood;
 
+import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.Seconds;
+import static org.sciborgs1155.robot.Constants.PERIOD;
+import static org.sciborgs1155.robot.hood.HoodConstants.*;
+
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+
 public class SimHood implements HoodIO {
 
+    private final SingleJointedArmSim simulator;
+
     public SimHood() {
-        return;
+        simulator = new SingleJointedArmSim(
+            DCMotor.getKrakenX44(1),
+            GEARING,
+            MOI,
+            HOOD_RADIUS.in(Meters),
+            MIN_ANGLE.in(Radians),
+            MAX_ANGLE.in(Radians),
+            true,
+            STARTING_ANGLE.in(Radians));
     }
 
     @Override
     public double angle() {
-       return 0.0;
+       return simulator.getAngleRads();
     }
 
     @Override
     public void setVoltage(double voltage) {
-        return;
+        simulator.setInputVoltage(voltage);
+        simulator.update(PERIOD.in(Seconds));
     }
 
     @Override
     public double velocity() {
-        return 0.0;
+        return simulator.getVelocityRadPerSec();
     }
 
     @Override
-    public void close() throws Exception {
-        return;
+    public double getVoltage() {
+        return simulator.getInput(0);
     }
-    
+
+    @Override
+    public void close() throws Exception {}
 }

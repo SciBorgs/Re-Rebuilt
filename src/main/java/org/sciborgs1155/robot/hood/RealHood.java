@@ -50,6 +50,11 @@ public class RealHood implements HoodIO {
     }
 
     @Override
+    public double getVoltage() {
+        return motor.getMotorVoltage().getValueAsDouble();
+    }
+
+    @Override
     public void close() throws Exception {
         motor.close();
     }
