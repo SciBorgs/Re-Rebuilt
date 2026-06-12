@@ -36,7 +36,7 @@ public class HoodConstants {
   public static final Angle DEFAULT_ANGLE = STARTING_ANGLE;
   public static final double GEARING = 12.0 / 44.0 * 18.0 / 14.0 * 182.0 / 10.0;
 
-  //PID constants
+  // PID constants
   public static final double P = 0;
   public static final double I = 0;
   public static final double D = 0;
