@@ -4,19 +4,9 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecondPerSecond;
 
-import static org.sciborgs1155.robot.hood.HoodConstants.A;
-import static org.sciborgs1155.robot.hood.HoodConstants.D;
-import static org.sciborgs1155.robot.hood.HoodConstants.G;
-import static org.sciborgs1155.robot.hood.HoodConstants.I;
-import static org.sciborgs1155.robot.hood.HoodConstants.MAX_ACCEL;
-import static org.sciborgs1155.robot.hood.HoodConstants.MAX_VELOCITY;
-import static org.sciborgs1155.robot.hood.HoodConstants.P;
-import static org.sciborgs1155.robot.hood.HoodConstants.POSITION_TOLERANCE;
-import static org.sciborgs1155.robot.hood.HoodConstants.RAMP_RATE;
-import static org.sciborgs1155.robot.hood.HoodConstants.S;
-import static org.sciborgs1155.robot.hood.HoodConstants.STEP_VOLTAGE;
-import static org.sciborgs1155.robot.hood.HoodConstants.TIME_OUT;
-import static org.sciborgs1155.robot.hood.HoodConstants.V;
+import static org.sciborgs1155.robot.hood.HoodConstants.*;
+
+import java.util.function.DoubleSupplier;
 
 import org.sciborgs1155.lib.Tuning;
 
@@ -24,12 +14,16 @@ import com.ctre.phoenix6.SignalLogger;
 
 import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.epilogue.NotLogged;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.networktables.DoubleEntry;
+import edu.wpi.first.units.measure.Angle;
+
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
@@ -105,7 +99,7 @@ public class Hood extends SubsystemBase implements AutoCloseable {
      * @return the angle in radians
      */
     @Logged
-    public double angle() {
+    public double getAngle() {
         return hardware.angle();
     }
 
@@ -156,9 +150,23 @@ public class Hood extends SubsystemBase implements AutoCloseable {
      */
     @Logged
     public boolean atGoal() {
-        return Math.abs(angleGoal() - angle()) < POSITION_TOLERANCE.in(Radians);
+        return Math.abs(angleGoal() - getAngle()) < POSITION_TOLERANCE.in(Radians);
     }
 
+    private void update(double position) {
+        double goal = MathUtil.clamp(position, MIN_ANGLE.in(Radians), MAX_ANGLE.in(Radians));
+        double feedback = pid.calculate(getAngle(), goal);
+        double feedForward = ff.calculate(pid.getSetpoint().position, pid.getSetpoint().velocity);
+        hardware.setVoltage(feedback + feedForward);
+    }
+
+    public Command goTo(DoubleSupplier goal) {
+        return run(() -> update(goal.getAsDouble())).withName("Hood goTo");
+    }
+
+    public Command goTo(Angle goal) {
+        return goTo(() -> goal.in(Radians));
+    }
     @Override
     public void close() throws Exception{
         hardware.close();
