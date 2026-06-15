@@ -136,7 +136,7 @@ public class Turret extends SubsystemBase implements AutoCloseable {
   public void update(double angle) {
     System.out.println("updating . . . " + angle);
     setVoltage(
-        pid.calculate(position(), MathUtil.clamp(angle, 0, Math.toRadians(270)))
+        pid.calculate(position(), MathUtil.clamp(angle, MIN_ANGLE, MAX_ANGLE))
             + ff.calculate(positionSetpoint(), velocitySetpoint()));
   }
 

@@ -72,7 +72,7 @@ public class RealTurret implements TurretIO {
   @Override
   @Logged
   public double position() {
-    return easyCRTSolver.getLastErrorRotations();
+    return motor.getPosition().getValueAsDouble();
   }
 
   @Override
@@ -93,5 +93,11 @@ public class RealTurret implements TurretIO {
   @Override
   public void close() throws Exception {
     motor.setVoltage(0);
+  }
+  
+  @Logged
+  public void periodic(){
+    motor.getMotorVoltage().getValueAsDouble();
+    motor.getSupplyCurrent().getValueAsDouble();
   }
 }

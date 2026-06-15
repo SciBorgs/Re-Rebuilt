@@ -152,8 +152,8 @@ public interface InputStream extends DoubleSupplier {
    * @param max The maximum value to scale with.
    * @return A deadbanded stream.
    */
-  public default InputStream deadband(double deadband, double max) {
-    return map(x -> MathUtil.applyDeadband(x, deadband, max));
+  public default InputStream deadband(DoubleSupplier deadband, double max) {
+    return map(x -> MathUtil.applyDeadband(x, deadband.getAsDouble(), max));
   }
 
   /**
