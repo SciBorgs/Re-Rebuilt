@@ -101,10 +101,10 @@ public final class DriveConstants {
   // ignored (used as 0) in simulation because the simulated robot doesn't have offsets
   public static final List<Rotation2d> ANGULAR_OFFSETS =
       List.of(
-          Rotation2d.kZero, // front left
-          Rotation2d.kZero, // front right
-          Rotation2d.kZero, // rear left
-          Rotation2d.kZero // rear right
+          Rotation2d.fromRotations(0.093505859375), // front left
+          Rotation2d.fromRotations(0.076416015625), // front right
+          Rotation2d.fromRotations(0.371826171875), // rear left
+          Rotation2d.fromRotations(-0.280517578125) // rear right
           );
 
   public static final Rotation3d GYRO_OFFSET = new Rotation3d(0, 0, Math.PI);

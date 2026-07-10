@@ -2,9 +2,9 @@ package org.sciborgs1155.robot.drive;
 
 import static edu.wpi.first.units.Units.*;
 import static org.sciborgs1155.lib.FaultLogger.*;
-import static org.sciborgs1155.robot.Constants.DRIVE_CANIVORE;
 import static org.sciborgs1155.robot.Constants.ODOMETRY_PERIOD;
 import static org.sciborgs1155.robot.Constants.PERIOD;
+import static org.sciborgs1155.robot.Ports.DRIVE_CAN_BUS;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusCode;
@@ -57,9 +57,10 @@ public class TalonModule implements ModuleIO {
       Rotation2d angularOffset,
       FFConstants ff,
       String name,
-      boolean invert) {
+      boolean invertDrive,
+      boolean invertTurn) {
     // drive motor
-    driveMotor = new TalonFX(drivePort, DRIVE_CANIVORE);
+    driveMotor = new TalonFX(drivePort, DRIVE_CAN_BUS);
     driveFF = new SimpleMotorFeedforward(ff.kS(), ff.kV(), ff.kA());
 
     TalonFXConfiguration talonDriveConfig = new TalonFXConfiguration();
@@ -70,21 +71,21 @@ public class TalonModule implements ModuleIO {
     talonDriveConfig.CurrentLimits.StatorCurrentLimit = Driving.STATOR_LIMIT.in(Amps);
 
     talonDriveConfig.MotorOutput.Inverted =
-        invert ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
+        invertDrive ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
 
     talonDriveConfig.Slot0.kP = Driving.PID.P;
     talonDriveConfig.Slot0.kI = Driving.PID.I;
     talonDriveConfig.Slot0.kD = Driving.PID.D;
 
-    turnMotor = new TalonFX(turnPort, DRIVE_CANIVORE);
-    encoder = new CANcoder(sensorID, DRIVE_CANIVORE);
+    turnMotor = new TalonFX(turnPort, DRIVE_CAN_BUS);
+    encoder = new CANcoder(sensorID, DRIVE_CAN_BUS);
 
     // turn motor
     TalonFXConfiguration talonTurnConfig = new TalonFXConfiguration();
 
     talonTurnConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
     talonTurnConfig.MotorOutput.Inverted =
-        invert ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
+        invertTurn ? InvertedValue.Clockwise_Positive : InvertedValue.CounterClockwise_Positive;
 
     talonTurnConfig.Feedback.SensorToMechanismRatio = Turning.ENCODER_GEARING;
     talonTurnConfig.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;

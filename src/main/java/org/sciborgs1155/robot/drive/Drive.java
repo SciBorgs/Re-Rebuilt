@@ -174,7 +174,8 @@ public class Drive extends SubsystemBase implements AutoCloseable {
                     ANGULAR_OFFSETS.get(0),
                     Driving.FF_CONSTANTS.get(0),
                     "FL",
-                    false),
+                    false,
+                    true),
                 new TalonModule(
                     FRONT_RIGHT_DRIVE,
                     FRONT_RIGHT_TURNING,
@@ -182,7 +183,8 @@ public class Drive extends SubsystemBase implements AutoCloseable {
                     ANGULAR_OFFSETS.get(1),
                     Driving.FF_CONSTANTS.get(1),
                     "FR",
-                    false),
+                    true,
+                    true),
                 new TalonModule(
                     REAR_LEFT_DRIVE,
                     REAR_LEFT_TURNING,
@@ -190,7 +192,8 @@ public class Drive extends SubsystemBase implements AutoCloseable {
                     ANGULAR_OFFSETS.get(2),
                     Driving.FF_CONSTANTS.get(2),
                     "RL",
-                    false),
+                    false,
+                    true),
                 new TalonModule(
                     REAR_RIGHT_DRIVE,
                     REAR_RIGHT_TURNING,
@@ -198,7 +201,8 @@ public class Drive extends SubsystemBase implements AutoCloseable {
                     ANGULAR_OFFSETS.get(3),
                     Driving.FF_CONSTANTS.get(3),
                     "RR",
-                    false));
+                    true,
+                    true));
         case SPARK ->
             new Drive(
                 new NavXGyro(),

@@ -2,7 +2,7 @@ package org.sciborgs1155.robot.drive;
 
 import static edu.wpi.first.units.Units.Milliseconds;
 import static edu.wpi.first.units.Units.Seconds;
-import static org.sciborgs1155.robot.Constants.DRIVE_CANIVORE;
+import static org.sciborgs1155.robot.Ports.DRIVE_CAN_BUS;
 import static org.sciborgs1155.robot.Constants.ODOMETRY_PERIOD;
 
 import com.ctre.phoenix6.BaseStatusSignal;
@@ -27,7 +27,7 @@ public class OdometryThread extends Thread {
   private final List<Queue<Double>> otherQueues = new ArrayList<>();
   private final List<Queue<Double>> timestampQueues = new ArrayList<>();
 
-  private static boolean isCANFD = DRIVE_CANIVORE.isNetworkFD();
+  private static boolean isCANFD = DRIVE_CAN_BUS.isNetworkFD();
   private static OdometryThread instance = null;
 
   public static OdometryThread getInstance() {
