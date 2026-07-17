@@ -24,6 +24,8 @@ import org.sciborgs1155.lib.Test;
 import org.sciborgs1155.lib.Tuning;
 import org.sciborgs1155.robot.Robot;
 
+import com.ctre.phoenix6.SignalLogger;
+
 public class Turret extends SubsystemBase implements AutoCloseable {
   private final TurretIO hardware;
 
@@ -58,7 +60,7 @@ public class Turret extends SubsystemBase implements AutoCloseable {
     
     sysIdRoutine =
     new SysIdRoutine(
-      new SysIdRoutine.Config(QUASISTATIC_VOLTAGE, DYNAMIC_VOLTAGE, Seconds.of(5)),
+      new SysIdRoutine.Config(QUASISTATIC_VOLTAGE, DYNAMIC_VOLTAGE, Seconds.of(5), state -> SignalLogger.writeString("turret state", state.toString())),
       new SysIdRoutine.Mechanism(
         voltage -> hardware.setVoltage(voltage.in(Volts)), null, this));
         
@@ -68,22 +70,22 @@ public class Turret extends SubsystemBase implements AutoCloseable {
           .quasistatic(Direction.kForward)
           .until(() -> atPosition(MAX_ANGLE))
           .withName("turret quasistatic forward"));
-          SmartDashboard.putData(
-            "Robot/turret/dynamic forward",
+        SmartDashboard.putData(
+          "Robot/turret/dynamic forward",
+          sysIdRoutine
+          .dynamic(Direction.kForward)
+          .until(() -> atPosition(MAX_ANGLE))
+          .withName("turret dynamic forward"));
+        SmartDashboard.putData(
+            "Robot/turret/quasistatic backward",
             sysIdRoutine
-            .dynamic(Direction.kForward)
-            .until(() -> atPosition(MAX_ANGLE))
-            .withName("turret dynamic forward"));
-            SmartDashboard.putData(
-              "Robot/turret/quasistatic backward",
-              sysIdRoutine
-              .quasistatic(Direction.kReverse)
-              .until(() -> atPosition(MIN_ANGLE))
-            .withName("turret quasistatic backward"));
-            SmartDashboard.putData(
-              "Robot/turret/dynamic backward",
-        sysIdRoutine
             .quasistatic(Direction.kReverse)
+            .until(() -> atPosition(MIN_ANGLE))
+            .withName("turret quasistatic backward"));
+        SmartDashboard.putData(
+            "Robot/turret/dynamic backward",
+            sysIdRoutine
+            .dynamic(Direction.kReverse)
             .until(() -> atPosition(MIN_ANGLE))
             .withName("turret dynamic backward"));
     setDefaultCommand(run(() -> hardware.setVoltage(0)));

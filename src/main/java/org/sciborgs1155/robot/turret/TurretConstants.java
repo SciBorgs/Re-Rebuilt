@@ -25,8 +25,8 @@ public class TurretConstants {
 
   // public static double TOLERANCE = 3;
   public static double TOLERANCE = 0.1;
-  public static Velocity<VoltageUnit> QUASISTATIC_VOLTAGE = Volts.per(Second).of(2);
-  public static Voltage DYNAMIC_VOLTAGE = Volts.of(3);
+  public static Velocity<VoltageUnit> QUASISTATIC_VOLTAGE = Volts.per(Second).of(1);
+  public static Voltage DYNAMIC_VOLTAGE = Volts.of(2);
 
   public static double MIN_ANGLE = 0;
   public static double MAX_ANGLE = 270;
