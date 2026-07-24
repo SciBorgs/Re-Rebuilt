@@ -86,7 +86,7 @@ public class Turret extends SubsystemBase implements AutoCloseable {
             "Robot/turret/dynamic backward",
             sysIdRoutine
             .dynamic(Direction.kReverse)
-            .until(() -> atPosition(MIN_ANGLE))
+            .until(() -> atPosition(MIN_ANGLE)) 
             .withName("turret dynamic backward"));
     setDefaultCommand(run(() -> hardware.setVoltage(0)));
   }

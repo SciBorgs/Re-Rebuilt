@@ -13,13 +13,13 @@ import edu.wpi.first.units.measure.Velocity;
 import edu.wpi.first.units.measure.Voltage;
 
 public class TurretConstants {
-  public static double kP = 35;
+  public static double kP = 5;
   public static double kI = 0;
   public static double kD = 0.1;
-  public static double kS = 0;
+  public static double kS = 1.2966;
   public static double kG = 0;
-  public static double kA = 0.1;
-  public static double kV = 0;
+  public static double kA = 0.36077;
+  public static double kV = 2.3207;
 
   public static DCMotor GEARBOX = DCMotor.getNEO(2);
 
@@ -28,8 +28,8 @@ public class TurretConstants {
   public static Velocity<VoltageUnit> QUASISTATIC_VOLTAGE = Volts.per(Second).of(1);
   public static Voltage DYNAMIC_VOLTAGE = Volts.of(2);
 
-  public static double MIN_ANGLE = 0;
-  public static double MAX_ANGLE = 270;
+  public static double MIN_ANGLE = -1;
+  public static double MAX_ANGLE = 0.2;
 
   public static Current CURRENT_LIMIT = Amps.of(60);
   public static double GEARING = 686 / 15;
