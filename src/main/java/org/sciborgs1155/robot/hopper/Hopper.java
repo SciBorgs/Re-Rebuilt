@@ -1,6 +1,5 @@
 package org.sciborgs1155.robot.hopper;
 
-import static edu.wpi.first.units.Units.Amp;
 import static edu.wpi.first.units.Units.Amps;
 
 import org.sciborgs1155.lib.Beambreak;
@@ -16,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import org.sciborgs1155.robot.Robot;
-import org.sciborgs1155.robot.hopper.HopperConstants;
 
 
 public class Hopper extends SubsystemBase {
